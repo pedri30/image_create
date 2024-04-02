@@ -3,42 +3,36 @@ import streamlit as st
 import requests
 import zipfile
 import io
-from utils import icon
 from streamlit_image_select import image_select
 
 # UI configurations
 st.set_page_config(page_title="Replicate Image Generator",
                    page_icon=":bridge_at_night:",
                    layout="wide")
-icon.show_icon(":foggy:")
-st.markdown("# :rainbow[Text-to-Image Artistry Studio]")
 
-# API Tokens and endpoints from `.streamlit/secrets.toml` file
-REPLICATE_API_TOKEN = st.secrets["REPLICATE_API_TOKEN"]
-REPLICATE_MODEL_ENDPOINTSTABILITY = st.secrets["REPLICATE_MODEL_ENDPOINTSTABILITY"]
+# Placeholder for images and gallery
+generated_images_placeholder = st.empty()
+gallery_placeholder = st.empty()
+
+# API Tokens and endpoints (should be loaded from `.streamlit/secrets.toml`)
+REPLICATE_API_TOKEN = "your_api_token"
+REPLICATE_MODEL_ENDPOINTSTABILITY = "your_model_endpoint"
 
 # Resources text, link, and logo
 replicate_text = "Stability AI SDXL Model on Replicate"
 replicate_link = "https://replicate.com/stability-ai/sdxl"
 replicate_logo = "https://storage.googleapis.com/llama2_release/Screen%20Shot%202023-07-21%20at%2012.34.05%20PM.png"
 
-# Placeholders for images and gallery
-generated_images_placeholder = st.empty()
-gallery_placeholder = st.empty()
 
-
-def configure_sidebar() -> None:
+def configure_sidebar() -> tuple:
     """
     Setup and display the sidebar elements.
-
-    This function configures the sidebar of the Streamlit application, 
-    including the form for user inputs and the resources section.
     """
     with st.sidebar:
         with st.form("my_form"):
             st.info("**Yo fam! Start here ↓**", icon="👋🏾")
             with st.expander(":rainbow[**Refine your output here**]"):
-                # Advanced Settings (for the curious minds!)
+                # Advanced Settings
                 width = st.number_input("Width of output image", value=1024)
                 height = st.number_input("Height of output image", value=1024)
                 num_outputs = st.slider(
@@ -92,26 +86,11 @@ def main_page(submitted: bool, width: int, height: int, num_outputs: int,
               scheduler: str, num_inference_steps: int, guidance_scale: float,
               prompt_strength: float, refine: str, high_noise_frac: float,
               prompt: str, negative_prompt: str) -> None:
-    """Main page layout and logic for generating images.
-
-    Args:
-        submitted (bool): Flag indicating whether the form has been submitted.
-        width (int): Width of the output image.
-        height (int): Height of the output image.
-        num_outputs (int): Number of images to output.
-        scheduler (str): Scheduler type for the model.
-        num_inference_steps (int): Number of denoising steps.
-        guidance_scale (float): Scale for classifier-free guidance.
-        prompt_strength (float): Prompt strength when using img2img/inpaint.
-        refine (str): Refine style to use.
-        high_noise_frac (float): Fraction of noise to use for `expert_ensemble_refiner`.
-        prompt (str): Text prompt for the image generation.
-        negative_prompt (str): Text prompt for elements to avoid in the image.
-    """
+    """Main page layout and logic for generating images."""
     if submitted:
         with st.status('👩🏾‍🍳 Whipping up your words into art...', expanded=True) as status:
             st.write("⚙️ Model initiated")
-            st.write("🙆‍♀️ Stand up and strecth in the meantime")
+            st.write("🙆‍♀️ Stand up and stretch in the meantime")
             try:
                 # Only call the API if the "Submit" button was pressed
                 if submitted:
@@ -179,9 +158,9 @@ def main_page(submitted: bool, width: int, height: int, num_outputs: int,
     else:
         pass
 
-    # Gallery display for inspo
+    # Gallery display for inspiration
     with gallery_placeholder.container():
-        img = image_select(
+        image_select(
             label="Like what you see? Right-click and save! It's not stealing if we're sharing! 😉",
             images=[
                 "gallery/farmer_sunset.png", "gallery/astro_on_unicorn.png",
@@ -203,10 +182,6 @@ def main_page(submitted: bool, width: int, height: int, num_outputs: int,
 def main():
     """
     Main function to run the Streamlit application.
-
-    This function initializes the sidebar configuration and the main page layout.
-    It retrieves the user inputs from the sidebar, and passes them to the main page function.
-    The main page function then generates images based on these inputs.
     """
     submitted, width, height, num_outputs, scheduler, num_inference_steps, guidance_scale, prompt_strength, refine, high_noise_frac, prompt, negative_prompt = configure_sidebar()
     main_page(submitted, width, height, num_outputs, scheduler, num_inference_steps,
