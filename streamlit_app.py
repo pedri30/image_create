@@ -3,7 +3,6 @@ import streamlit as st
 import requests
 import zipfile
 import io
-from utils import icon
 from streamlit_image_select import image_select
 
 # UI configurations
@@ -36,7 +35,7 @@ def configure_sidebar() -> None:
     """
     with st.sidebar:
         with st.form("my_form"):
-            st.info("**Yo fam! Start here ↓**", icon="👋🏾")
+            st.info("**Yo fam! Start here ↓**")
             with st.expander(":rainbow[**Refine your output here**]"):
                 # Advanced Settings (for the curious minds!)
                 width = st.number_input("Width of output image", value=1024)
@@ -184,9 +183,9 @@ def main_page(submitted: bool, width: int, height: int, num_outputs: int,
         img = image_select(
             label="Like what you see? Right-click and save! It's not stealing if we're sharing! 😉",
             images=[
-                "gallery/farmer_sunset.png", "gallery/astro_on_unicorn.png",
-                "gallery/friends.png", "gallery/wizard.png", "gallery/puppy.png",
-                "gallery/cheetah.png", "gallery/viking.png",
+                "Gallery2/img1.jpeg", "Gallery2/img1.jpeg",
+                "Gallery2/img1.jpeg", "Gallery2/img1.jpeg", "Gallery2/img1.jpeg",
+                "Gallery2/img1.jpeg", "Gallery2/img1.jpeg",
             ],
             captions=["A farmer tilling a farm with a tractor during sunset, cinematic, dramatic",
                       "An astronaut riding a rainbow unicorn, cinematic, dramatic",
