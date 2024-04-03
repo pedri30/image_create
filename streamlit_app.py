@@ -184,9 +184,9 @@ def main_page(submitted: bool, width: int, height: int, num_outputs: int,
         img = image_select(
             label="Like what you see? Right-click and save! It's not stealing if we're sharing! 😉",
             images=[
-                "gallery/farmer_sunset.png", "gallery/astro_on_unicorn.png",
-                "gallery/friends.png", "gallery/wizard.png", "gallery/puppy.png",
-                "gallery/cheetah.png", "gallery/viking.png",
+                "Gallery2/img1.jpeg", "Gallery2/img1.jpeg",
+                "Gallery2/img1.jpeg", "Gallery2/img1.jpeg", "Gallery2/img1.jpeg",
+                "Gallery2/img1.jpeg", "Gallery2/img1.jpeg",
             ],
             captions=["A farmer tilling a farm with a tractor during sunset, cinematic, dramatic",
                       "An astronaut riding a rainbow unicorn, cinematic, dramatic",
